@@ -1,5 +1,5 @@
 # Español
-- PassGen -
+# PassGen
 - Es un Generador de contraseñas aleatorio hecho en bash
 -------
 # Requisitos
@@ -20,7 +20,7 @@ cd PassGen
 chmod +x PassGen && ./PassGen
 ```
 # English
-- PassGen -
+# PassGen
 - Is a random Password generator made in bash
 --------------
 # Requirements
