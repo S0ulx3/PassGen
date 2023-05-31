@@ -12,8 +12,10 @@ NC='\033[39m'
 
 characters="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*"
 
-#Solicitar longitud de la contraseña
-echo -e "\e[35mIngrese la longitud deseada de la contraseña:\e[0m"
+# Menú y Solicitar longitud de la contraseña
+echo -e "|---------------------------------------------|"
+echo -e "-\e[35mIngrese la longitud deseada de la contraseña:\e[0m|"
+echo -e "|---------------------------------------------|"
 read longitud
 
 # Generar contraseña
@@ -21,35 +23,38 @@ read longitud
 password=$(echo "$characters" | fold -w1 | shuf | tr -d '\n' | head -c$longitud)
 
 # Mostrar contraseña
-
-echo -e "\e[34mContraseña generada:\e[0m \e[31m$password\e[0m"
-echo
-echo -e "\e[35m¿Desea guardar la contraseña en el portapapeles?\e[0m"
-echo
-echo -e "\e[34m1. Sí\e[0m"
-echo -e "\e[34m2. No\e[0m"
-echo
+echo -e "|---------------------------------------------|"
+echo -e "-\e[34mContraseña generada:\e[0m \e[31m$password\e[0m"
+echo -e "|---------------------------------------------|"
+echo -e "-\e[35m¿Desea guardar la contraseña en el portapapeles?\e[0m"
+echo -e "|---------------------------------------------|"
+echo -e "-\e[34m1. Sí\e[0m"
+echo -e "-\e[34m2. No\e[0m"
+echo -e "|---------------------------------------------|"
 printf "\e[35mSeleccione una opción: \e[0m"
 read Opcion
+echo -e "|---------------------------------------------|"
 
 case $Opcion in
    1)
     if command -v xclip >/dev/null 2>&1; then
   echo -n "$password" | xclip -selection clipboard
-  echo
-  echo -e "\e[32mContraseña copiada al portapapeles.\e[0m"
+  echo -e "|---------------------------------------------|"
+  echo -e "-\e[32m[✓]Contraseña copiada al portapapeles.\e[0m"
 else
-  echo
-  echo -e "\e[31m[!]No se pudo copiar la contraseña al portapapeles. El comando 'xclip' no está instalado.\e[0m"
+  echo -e "|---------------------------------------------|"
+  echo -e "-\e[31m[!]No se pudo copiar la contraseña al portapapeles. El comando 'xclip' no está instalado.\e[0m"
   fi
   ;;
 2)
-  echo
-  echo -e "\e[31m[!]No se copiará la contraseña al portapapeles\e[0m"
+  echo -e "|---------------------------------------------|"
+  echo -e "-\e[31m[!]No se copiará la contraseña al portapapeles\e[0m"
+  echo -e "|---------------------------------------------|"
   exit 1
   ;;
 *)
-  echo
-  echo -e "\e[31m[!]Opción inválida, se cerrará el programa\e[0m"
+  echo -e "|---------------------------------------------|"
+  echo -e "-\e[31m[!]Opción inválida, se cerrará el programa\e[0m"
+  echo -e "|---------------------------------------------|"
   ;;
 esac
