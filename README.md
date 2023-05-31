@@ -2,7 +2,10 @@
 | ------- |
 |![f](https://github.com/S0ulx3/PassGen/blob/main/PassGen.png)
 
-# Español
+- [Español](#español)
+- [English](#english)
+
+### Español
 # PassGen
 - Es un Generador de contraseñas aleatorio hecho en bash
 -------
@@ -23,7 +26,7 @@ git clone https://github.com/S0ulx3/PassGen
 cd PassGen
 chmod +x PassGen && ./PassGen
 ```
-# English
+### English
 # PassGen
 - Is a random Password generator made in bash
 --------------
