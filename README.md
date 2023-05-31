@@ -1,3 +1,7 @@
+| PassGen |
+-----------
+|![f](https://github.com/S0ulx3/PassGen/blob/main/PassGen.png)
+
 # Español
 # PassGen
 - Es un Generador de contraseñas aleatorio hecho en bash
