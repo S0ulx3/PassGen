@@ -26,21 +26,30 @@ echo -e "\e[34mContraseña generada:\e[0m \e[31m$password\e[0m"
 echo
 echo -e "\e[35m¿Desea guardar la contraseña en el portapapeles?\e[0m"
 echo
-echo -e "\e[34m1. SI\e[0m"
-echo -e "\e[34m2. NO\e[0m"
+echo -e "\e[34m1. Sí\e[0m"
+echo -e "\e[34m2. No\e[0m"
+echo
+printf "\e[35mSeleccione una opción: \e[0m"
 read Opcion
 
 case $Opcion in
    1)
     if command -v xclip >/dev/null 2>&1; then
   echo -n "$password" | xclip -selection clipboard
+  echo
   echo -e "\e[32mContraseña copiada al portapapeles.\e[0m"
 else
-  echo -e "\e[31mNo se pudo copiar la contraseña al portapapeles. El comando 'xclip' no está instalado.\e[0m"
+  echo
+  echo -e "\e[31m[!]No se pudo copiar la contraseña al portapapeles. El comando 'xclip' no está instalado.\e[0m"
   fi
   ;;
 2)
-  echo -e "\e[31mNo se copiará la contraseña al portapapeles\e[0m"
+  echo
+  echo -e "\e[31m[!]No se copiará la contraseña al portapapeles\e[0m"
   exit 1
+  ;;
+*)
+  echo
+  echo -e "\e[31m[!]Opción inválida, se cerrará el programa\e[0m"
   ;;
 esac
