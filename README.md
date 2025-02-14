@@ -4,13 +4,10 @@
 
 
 # PassGen
-- Generador de contraseñas hecho en bash
+- ### Generador de contraseñas hecho en bash
 -------
 # Requisitos
-- xclip
-```bash
-Se instala automáticamente si no lo tienes instalado.
-```
+- ### xclip ( Instalación automática )
 -------------------
 # Instalación
 - Clonamos el repositorio
