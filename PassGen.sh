@@ -54,9 +54,9 @@ copiar=false  # Bandera para copiar al portapapeles
 	while getopts "hc:" opt; do
 		case $opt in
 		h)
-               helpPanel
-               exit 0
-               ;;
+               		helpPanel
+               		exit 0
+               		;;
 		c)
 			copiar=true
 			longitud=$OPTARG
