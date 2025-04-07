@@ -1,92 +1,101 @@
 #!/bin/bash
 
-# Dependencias
-function dep(){
-    tput civis; clear
-    echo -e "\n\n\t\e[35m[!]\e[33m Verificando si las dependencias están instaladas..."; sleep 1
-    clear
+## Variables
+# Colores
+red="\e[31m"
+gre="\e[32m"
+yel="\e[33m"
+blu="\e[34m"
+pur="\e[35m"
+cia="\e[36m"
+end="\e[0m"
 
-for requirements in xclip; do
+# Función para mostrar el logo de PassGen
+function logo(){
+echo -e '
+\e[34m|-------------------------------------------------------------|
+\e[36m  __________                          ________
+\e[36m  \______   \_____    ______ ______  /  _____/  ____   ____
+\e[36m   |     ___/\__  \  /  ___//  ___/ /   \  ____/ __ \ /    \
+\e[36m   |    |     / __ \_\___ \ \___ \  \    \_\  \  ___/|   |  \
+\e[36m   |____|    (____  /____  >____  >  \______  /\___  >___|  /
+\e[36m                  \/     \/     \/          \/     \/     \/
+\e[34m|-------------------------------------------------------------|\e[0m
+'
+}
 
-if ! $(which $requirements &>/dev/null)
-then
-clear
-echo -e "\n\n\t\e[31m[!]\e[33m Comando \e[31m$requirements\e[33m no instalado.\e[0m"
-sleep 2
+# Panel de ayuda
+function helpPanel(){
 
-tput cnorm; sudo apt install $requirements -y
-
-    else
-    :
-
-fi
-done
-
-tput civis; clear
-echo -e "\n\n\t\e[32m[!]\e[33m Dependencias instaladas.\e[0m"
-sleep 0.5; tput cnorm; clear
+echo -e "\n${blu}[${cia}*${blu}]${cia} Uso normal: ./PassGen.sh <longitud>"
+	echo -e "\t${cia}h)${blu} Muestra este panel de ayuda"
+	echo -e "\t${cia}c)${blu} Copia la contraseña en el portapapeles"
+	echo -e "\t${pur}   Ejemplo: ./PassGen -c 30 \n"
+	exit 0
 
 }
 
-# Colores
-Rojo='\033[31m'
-Verde='033[32m'
-Azul='\033[34m'
-Magenta='033[35m'
-Cyan='\033[36m'
-NC='\033[39m'
+# Verificación e instalación automática de xclip
 
-# Rango de carácteres
+	if ! command -v xclip &>/dev/null; then
+
+	echo -e "\n\t${red}[${yel}!${red}]${yel} Comando ${red}xclip${yel} no instalado...\n"; sleep 1.5
+	echo -e "\t${blu}[${cia}*${blu}]${pur} Instalando ${cia}xclip${pur} ...\n\n"; sleep 0.8
+	sudo apt install xclip -y
+
+	clear
+	echo -e "\n\t${blu}[${cia}*${blu}]${blu} Comando ${cia}xclip${blu} instalado correctamente."; sleep 2; clear
+
+	fi
+
+## Manejo de opciones con getopts
+copiar=false  # Bandera para copiar al portapapeles
+
+	while getopts "hc:" opt; do
+		case $opt in
+		h)
+               helpPanel
+               exit 0
+               ;;
+		c)
+			copiar=true
+			longitud=$OPTARG
+			;;
+		*)
+			echo -e "\n${red}[${yel}!${red}]${yel} Opción no válida.\n"
+			echo -e "\n${blu}[${cia}*${blu}]${cia} Usa: ${pur}./PassGen -h   ${cia}# Para abrir el panel de control"
+			exit 1
+			;;
+		esac
+	done
+
+shift $((OPTIND - 1)) # Ajusta los argumentos después de getopts
+
+## Generar la contraseña
+
+	if [ -z "$longitud" ]; then
+		longitud=$1 # Si no se pasó como argummento, toma el primero después de las opciones
+	fi
+
+	if [ -z "$longitud" ]; then
+		echo -e "\n${red}[${yel}!${red}]${yel} Debes especificar la longitud de la contraseña."
+		echo -e "\n${blu}[${cia}*${blu}]${cia} Usa: ${pur}./PassGen -h   ${cia}# Para abrir el panel de control"
+    		exit 1
+	fi
 
 characters="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*"
+password=$(echo "$characters" | fold -w1 | shuf | tr -d '\n' | head -c $longitud)
 
-dep
+# Mostrar resultado
 
-# Menú y Solicitar longitud de la contraseña
+	if [ "$copiar" = true ]; then
 
-echo -e "\e[35m|------------------------------------------------------------|"
-echo -e "|\e[36m__________                          ________                \e[35m|"
-echo -e "|\e[36m\______   \_____    ______ ______  /  _____/  ____   ____   \e[35m|"
-echo -e "|\e[36m |     ___/\__  \  /  ___//  ___/ /   \  ____/ __ \ /    \  \e[35m|"
-echo -e "|\e[36m |    |     / __ \_\___ \ \___ \  \    \_\  \  ___/|   |  \ \e[35m|"
-echo -e "|\e[36m |____|    (____  /____  >____  >  \______  /\___  >___|  / \e[35m|"
-echo -e "|\e[36m                \/     \/     \/          \/     \/     \/  \e[35m|"
-echo -e "|------------------------------------------------------------|\n"
-echo -e "\n|- Ingresa la longitud de la contraseña - |"
-read -p "|---> " longitud
-sleep 0.6
+		echo -n "$password" | xclip -selection clipboard
+		logo
+		echo -e "\n${blu}[${cia}*${blu}]${cia} Contraseña generada:${pur} $password${end}"
+     	echo -e "\n${gre}[*] Contraseña copiada al portapapeles.${end}"
+	else
 
-# Generar contraseña
-
-password=$(echo "$characters" | fold -w1 | shuf | tr -d '\n' | head -c$longitud)
-
-# Mostrar contraseña
-
-echo -e "\n\e[33m[\e[31m!\e[33m]\e[32m Contraseña generada: \e[31m$password\e[0m"
-
-echo -e "\n\e[35m[\e[36m!\e[35m] ¿Desea guardar la contraseña en el portapapeles?\e[0m"
-
-echo -e "\n\e[35m\t[\e[36m 1.\e[35m Sí ]"
-echo -e "\n\e[35m\t[\e[36m 2.\e[35m No ]"
-
-echo -e "\n\e[35m[\e[36m!\e[35m] Selecciona una opción.\n"
-read -p "|---> " Opcion
-
-case $Opcion in
-   1)
-  echo -n "$password" | xclip -selection clipboard
-  echo -e "\n\n\e[32m[✓] Contraseña copiada al portapapeles.\n\n"
-  ;;
-2)
-  echo -e "\n\e[31m[!] No se copiará la contraseña al portapapeles\e[0m"
-  clear
-
-echo -e "\n\n\t\e[35m[\e[36m!\e[35m] Contraseña generada: \e[31m$password\e[0m\n\n"
-
-exit 1
-  ;;
-*)
-  clear
-  echo -e "\n\n\t\e[33m [\e[31m!\e[33m] \e[31mOpción inválida, se cerrará el programa.\e[0m"
-  ;;
-esac
+		logo
+		echo -e "\n${blu}[${cia}*${blu}]${cia} Contraseña generada:${pur} $password${end}"
+	fi
