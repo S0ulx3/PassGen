@@ -1,5 +1,17 @@
 #!/bin/bash
 
+# Función Ctrl+C
+function ctrl_c(){
+
+clear
+     echo -e "\n\t${red}[${yel}!${red}]${yel} Saliendo..."
+     kill %%; exit 1
+
+}
+
+# Ctrl+C
+trap ctrl_c INT
+
 ## Variables
 # Colores
 red="\e[31m"
