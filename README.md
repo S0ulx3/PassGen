@@ -6,12 +6,12 @@
 |![f](https://github.com/S0ulx3/PassGen/blob/main/PassGen.png)|![f](https://github.com/S0ulx3/PassGen/blob/main/PassGen-1.png)
 
 ## Descripción
-> PassGen es un generador de contraseñas aleatorias creado en Bash.
-> 
-> Su objetivo es ofrecer una forma rápida y sencilla de generar contraseñas seguras, con funcionalidades como:
+> **PassGen es un generador de contraseñas aleatorias creado en Bash.**
+> **Su objetivo es ofrecer una forma rápida y sencilla de generar contraseñas seguras, con funcionalidades como:**
 > - Personalización de la longitud.
 > - Inclusión de números, letras (mayúsculas y minúsculas) y símbolos especiales.
 > - Opción para copiar automáticamente la contraseña al portapapeles.
+> - Icluye un diseño interactivo con colores llamativos para mejorar la experiencia del usuario
 
 ## Requisitos
 > ### **xclip**
